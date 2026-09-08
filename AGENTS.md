@@ -1,3 +1,63 @@
+# Press-Kampus
+
+Laravel 13 + Livewire 4 starter kit (`laravel/blank-livewire-starter-kit`). PHP 8.4.
+
+## Commands
+
+| Action | Command |
+|--------|---------|
+| Full setup | `composer setup` |
+| Dev server | `composer dev` |
+| CI check (lint → types → test) | `composer ci:check` |
+| Format (Pint) | `vendor/bin/pint --dirty --format agent` |
+| PHPStan | `composer types:check` (level 7) |
+| Run all tests | `php artisan test --compact` |
+| Run single test | `vendor/bin/pest --filter=name` |
+| Frontend build | `npm run build` (or `vp build`) |
+| Frontend dev | `npm run dev` (or `vp dev`) |
+
+## Architecture
+
+- **Models**: `app/Models/` — uses Laravel 13 `#[Fillable]`/`#[Hidden]` attributes (not `$fillable` array)
+- **Controllers**: `app/Http/Controllers/` — single `Controller.php`
+- **Views**: `resources/views/` — Blade templates, `@vite` directive
+- **Routes**: `routes/web.php` — single welcome route (`Route::view('/', 'welcome')`)
+- **Database**: SQLite (`database/database.sqlite`), migrations in `database/migrations/`
+
+## Testing
+
+- Pest (not PHPUnit) — `tests/Pest.php` configures `RefreshDatabase` for Feature tests
+- DB is `:memory:` SQLite in tests (set in `phpunit.xml`)
+- Create tests: `php artisan make:test TestName --pest`
+- Run narrow: `php artisan test --compact --filter=TestName`
+
+## Frontend
+
+- Vite 8 + `vite-plus` + Tailwind v4 (`@tailwindcss/vite`)
+- Entry: `resources/css/app.css`, `resources/js/app.js`
+- Fonts: Instrument Sans via `laravel-vite-plugin/fonts`
+
+## Key Conventions
+
+- PHPStan level 7 paths: `app/`, `bootstrap/app.php`, `config/`, `database/`, `routes/`
+- Pint preset: `laravel`
+- After PHP edits: always run `vendor/bin/pint --dirty --format agent`
+- PHP 8 attributes on models: `#[Fillable([...])]`, `#[Hidden([...])]`
+
+## Boost
+
+- MCP server configured in `opencode.json` (Laravel Boost)
+- Skills: `laravel-best-practices`, `testing-best-practices`, `livewire-development`, `tailwindcss-development`
+- Use `search-docs` before Laravel API changes
+- Use `record-rule` to persist project conventions
+
+## CI
+
+- `.github/workflows/tests.yml` — runs `composer setup` then `composer ci:check`
+- Push to `main` + PRs trigger CI
+
+---
+
 <laravel-boost-guidelines>
 === foundation rules ===
 
